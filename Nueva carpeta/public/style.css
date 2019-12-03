@@ -1,0 +1,44 @@
+ table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+      @media only screen and (orientation: Portrait) {
+        .mostrar-portrait{
+          display: block
+        }
+      
+        .mostrar-landscape{
+          display: none;
+        }
+      
+        #tabla-partidos{
+          width: 100%
+        }
+      }
+      
+      @media only screen and (orientation: Landscape) {
+        .mostrar-portrait{
+          display: none
+        }
+      
+        .mostrar-landscape{
+          display: block;
+        }
+      
+        #tabla-partidos{
+          width: 50%
+        }
+      }
+     

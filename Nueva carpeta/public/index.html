@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <link rel="shortcut icon" href="logo.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="logo.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <metaname="apple-mobile-web-app-capable"content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/6.2.3/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/6.2.3/firebase-auth.js"></script>
+    <script defer src="/__/firebase/6.2.3/firebase-database.js"></script>
+    <script defer src="/__/firebase/6.2.3/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/6.2.3/firebase-storage.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+    <title>NYSL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+  <div id="app" class="container">
+
+    <header class="fixed-top" style="background-color: #454545">
+
+      <div class="row">
+        <div class="col-2">
+          <img src="logo.png" alt="logo" width="60px" style="padding: 5%;" />
+        </div>
+        <div class="col-8 text-center">
+          <h1 class="align-middle" style="color: white">N Y S L</h1>
+        </div>
+        <div class="col-2"></div>
+      </div>
+    </header>
+
+    <br /><br /><br /><br />
+
+    <div v-if="page == 'gi'">
+      <h1 class="text-centre"><strong>Game schedule and information :</strong></h1>
+      <br />
+      <h1>Search :</h1>
+      <br />
+
+      <button type="button" class="btn btn-primary btn-block" onclick="pages ('t')"> By Team :</button>
+      <br>
+      <button type="button" class="btn btn-primary btn-block" onclick="pages ('d')">By Date :</button>
+    </div>
+
+    <div v-if="page == 'ue'">
+      <div class="row">
+        <div class="col">
+          <strong>
+            <h3>August 4</h3>
+          </strong>
+          <strong>NYSL Fundraiser</strong>
+          <hr>
+        </div>
+        <div class="col"><img src="imgs/design2_image1.jpg" width="330px" height="320px"></div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col">
+
+          <strong>
+            <h3>August 16</h3>
+          </strong>
+          <strong>Season Kick-off: Meet the Teams</strong> </div>
+        <hr>
+
+        <div class="col"> <img src="imgs/design1_image1.jpg" width="330px" height="320px"> </div>
+
+
+      </div>
+
+      <br>
+      <div class="row">
+        <div class="col">
+
+          <strong>
+            <h3>September 1</h3>
+          </strong>
+          <strong>First Game of the Season (Check Game Schedule for details)</strong>
+        </div>
+        <hr>
+
+
+        <div class="col">
+          <img src="imgs/foto_upcoming.jpg">
+
+        </div>
+      </div>
+      <br><br>
+
+    </div>
+
+    <div v-if="page =='c'">
+      <div class="container">
+        <div>
+          <h2><strong>Please direct all questions to:</strong></h2><br />
+          <h4><strong> Michael Randall, League Coordinator</strong></h4><br />
+          <strong>Phone:</strong> (630) 690-8132<br /><br />
+          <strong>EMAIL:</strong><a href="mailto:michael.randall@chisoccer.org">michael.randall@chisoccer.org</a>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="page =='t'">
+      <br>
+
+      <div class="panel-group" :id="'accordion' + partidoPorEquipo.equipo"
+        v-for="partidoPorEquipo in partidosPorEquipo">
+        <div class="panel panel-default">
+          <div class="panel-heading" style="background-color: black">
+            <h4 class="panel-title" style="color: white">
+              <a data-toggle="collapse" :data-parent="'#accordion' + partidoPorEquipo.equipo"
+                :href="'#' + partidoPorEquipo.equipo">{{ partidoPorEquipo.equipo }}</a>
+            </h4>
+          </div>
+          <div :id="partidoPorEquipo.equipo" class="panel-collapse collapse">
+            <div class="panel-body">
+              <div class="row">
+                <div>
+                <table id="tabla-partidos">
+                  <tr v-for="partido in partidoPorEquipo.partidos">
+                    <th>{{ partido.nombre }}</th>
+                    <th>{{ partido.mes + "/" + partido.dia }} </th>
+                    <th>{{ partido.horario }}
+                    </th>
+                    <td> <a class="mostrar-portrait" id="btn-maps" v-bind:href="partido.url">{{ partido.lugar }}</a>
+                      <a class="mostrar-landscape btn-estadio-class" v-bind:id="'btn-estadio' + index"
+                        v-on:click="seleccionarEstadio(partido.url, index)">{{ partido.lugar }}</a>
+                    </td>
+                </table>
+              </div>
+                <div class="mostrar-landscape" >
+                  <iframe id="map-seleccionado"
+                    src="https://www.google.com/maps/d/embed?mid=1SID7QdfDWObUWMXQOsC6PyJM3FKPEW9K"></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <button type="button" class="btn btn-primary" onclick="pages ('gi')">Go back !</button>
+      <br><br><br>
+    </div>
+    <div v-if="page =='d'">
+      <br>
+      <div>
+        <div class="panel-group" id="accordion">
+          <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: black">
+              <h4 class="panel-title" style="color: white">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">September</a>
+              </h4>
+
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+              <div class="panel-body">
+
+                <div class="row">
+                  <table id="tabla-partidos">
+                    <tr v-for="(partido, index) in partidosSeptember">
+                      <td>{{ partido.nombre }}</td>
+                      <td>{{  partido.dia + '/' + partido.mes}}</td>
+                      <td>{{ partido.horario }}</td>
+                      <td> <a class="mostrar-portrait" id="btn-maps" v-bind:href="partido.url">{{ partido.lugar }}</a>
+                        <a class="mostrar-landscape btn-estadio-class" v-bind:id="'btn-estadio' + index"
+                          v-on:click="seleccionarEstadio(partido.url, index)">{{ partido.lugar }}</a>
+                      </td>
+                    </tr>
+                  </table>
+                  <div class="mostrar-landscape" style="width: 50%">
+                    <iframe id="map-seleccionado"
+                      src="https://www.google.com/maps/d/embed?mid=1SID7QdfDWObUWMXQOsC6PyJM3FKPEW9K"></iframe>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: black">
+              <h4 class="panel-title" style="color: white">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">October</a>
+              </h4>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse">
+              <div class="panel-body">
+                <br />
+                <div class="row">
+
+                  <table id="tabla-partidos">
+                    <tr v-for="(partido, index) in partidosOctober">
+                      <td>{{ partido.nombre }}</td>
+                      <td>{{  partido.dia + '/' + partido.mes}}</td>
+                      <td>{{ partido.horario }}</td>
+                      <td> <a class="mostrar-portrait" id="btn-maps" v-bind:href="partido.url">{{ partido.lugar }}</a>
+                        <a class="mostrar-landscape btn-estadio-class" v-bind:id="'btn-estadio' + index"
+                          v-on:click="seleccionarEstadio(partido.url, index)">{{ partido.lugar }}</a></a>
+                    </tr>
+                  </table>
+                  <div class="mostrar-landscape" style="width: 50%">
+                    <iframe id="map-seleccionado"
+                      src="https://www.google.com/maps/d/embed?mid=1SID7QdfDWObUWMXQOsC6PyJM3FKPEW9K"></iframe>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <button type="button" class="btn btn-primary" onclick="pages ('gi')">Go back !</button>
+      <br><br><br>
+    </div>
+
+    <br /><br />
+
+    <div class="border border border-dark border-s position-fixed text-white rounded"
+      style="left: 0px; z-index: 1;  width: 100%; background-color: #454545; bottom: 0%">
+      <div class="footer-copyright text-center py-3">
+        <div class="btn-group btn-group-justified">
+          <a class="btn btn-primary" style="background-color: #454545; border-color: #dddddd"
+            onclick="pages ('gi')">Game
+            Schedule</a>
+
+          <a class="btn btn-primary" style="background-color: #454545; border-color: #dddddd" onclick="pages ('ue')">
+            <h5>New
+              events</h5>
+          </a>
+          <a class="btn btn-primary" style="background-color: #454545; border-color: #dddddd" onclick="pages ('c')">
+            <h5>Contacts</h5>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.js"></script>
+  <script src="partidos.js"></script>
+  <script src="scriptPages.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
